@@ -6,7 +6,6 @@ import '../../../widgets/custom_header.dart';
 
 class MenuPage extends StatelessWidget {
   final String username;
-
   const MenuPage({super.key, required this.username});
 
   @override
@@ -15,7 +14,7 @@ class MenuPage extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+          padding: const EdgeInsets.all(24),
           child: Column(
             children: [
               const CustomHeader(
@@ -25,22 +24,42 @@ class MenuPage extends StatelessWidget {
               const SizedBox(height: 32),
               ProfileCard(username: username),
               const SizedBox(height: 32),
-              LevelCard(
-                title: "Nível 1",
-                subtitle: "Vidrarias Básicas",
-                progress: 1.0,
-                score: 850,
-                stars: 3,
-                accentColor: Colors.green,
-              ),
-              const SizedBox(height: 24),
-              LevelCard(
-                title: "Nível 2",
-                subtitle: "Equipamentos de Medição",
-                progress: 0.45,
-                score: 520,
-                stars: 1,
-                accentColor: AppColors.primary,
+              
+              // 2 por linha (Wrap para responsividade)
+              Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                alignment: WrapAlignment.center,
+                children: [
+                  const LevelCard(
+                    title: "Nível 1",
+                    subtitle: "Vidrarias Básicas",
+                    progress: 1.0,
+                    score: 850,
+                    stars: 3,
+                    accentColor: AppColors.success,
+                  ),
+                  const LevelCard(
+                    title: "Nível 2",
+                    subtitle: "Equipamentos de Medição",
+                    progress: 0.45,
+                    score: 520,
+                    stars: 1,
+                    accentColor: AppColors.primary,
+                  ),
+                  const LevelCard(
+                    title: "Nível 3",
+                    subtitle: "Equipamentos de Aquecimento",
+                    isLocked: true,
+                    accentColor: AppColors.primary,
+                  ),
+                  const LevelCard(
+                    title: "Nível 4",
+                    subtitle: "Equipamentos de Segurança",
+                    isLocked: true,
+                    accentColor: AppColors.primary,
+                  ),
+                ],
               ),
             ],
           ),
