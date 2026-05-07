@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lab_game/widgets/buttons.dart';
+import '../../theme/app_text_styles.dart';
 import 'menu/menu_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -104,25 +105,21 @@ class _LoginForm extends StatelessWidget {
                         width: 50,
                         fit: BoxFit.cover,
                         // Se a imagem não for encontrada, mostra um ícone de erro
-                        errorBuilder: (context, error, stackTrace) => 
-                          const Icon(Icons.science, size: 50, color: Colors.cyan),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(
+                              Icons.science,
+                              size: 50,
+                              color: Colors.cyan,
+                            ),
                       ),
                     ),
                     const SizedBox(width: 15),
-                    const Text(
-                      'Lab Game',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Cor escura para contraste
-                      ),
-                    ),
+                    Text('Lab Game', style: AppTextStyles.pageTitle),
                   ],
                 ),
               ),
 
               const SizedBox(height: 20), // Espaço entre as caixas
-
               // =========================================================
               // CAIXA DE LOGIN ORIGINAL
               // =========================================================
@@ -145,7 +142,10 @@ class _LoginForm extends StatelessWidget {
                   children: [
                     const Text(
                       'Login',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     TextField(
