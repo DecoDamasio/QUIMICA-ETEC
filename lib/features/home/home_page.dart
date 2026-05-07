@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lab_game/widgets/buttons.dart';
 import 'menu/menu_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/2025_plano_de_fundo_teams_op1.png'),
+          image: AssetImage('assets/images/2025_plano_de_fundo_teams_op2.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -139,25 +140,11 @@ class _LoginForm extends StatelessWidget {
                 child: AnimatedScale(
                   scale: isHovering ? 1.05 : 1.0,
                   duration: const Duration(milliseconds: 200),
-                  child: ElevatedButton(
-                    onPressed: () => _handleLogin(context),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 48),
-                      backgroundColor: isHovering
-                          ? const Color(
-                              0x33FF0000,
-                            ) // Otimizado: Colors.red.withOpacity(0.2)
-                          : Colors.white,
-                      shadowColor: isHovering ? Colors.red : Colors.grey,
-                      elevation: isHovering ? 12 : 4,
-                    ),
-                    child: const Text(
-                      'Entrar',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: WhiteOutlineButton(
+                      text: 'Entrar',
+                      onPressed: () => _handleLogin(context),
                     ),
                   ),
                 ),

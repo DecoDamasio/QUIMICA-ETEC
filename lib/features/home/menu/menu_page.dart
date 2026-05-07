@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/app_colors.dart';
 
 class MenuPage extends StatefulWidget {
   final String username;
@@ -26,12 +27,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/2025_plano_de_fundo_teams_op1.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: const BoxDecoration(color: AppColors.background),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -53,6 +49,7 @@ class _MenuPageState extends State<MenuPage> {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ),
@@ -67,14 +64,18 @@ class _MenuPageState extends State<MenuPage> {
               children: [
                 const Text(
                   'Menu Principal',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
                 const SizedBox(height: 48),
                 _buildMenuButton(
                   context,
                   'Iniciar Jogo',
                   Icons.play_circle,
-                  Colors.red,
+                  AppColors.primary,
                   () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Jogo iniciando...')),
@@ -86,7 +87,7 @@ class _MenuPageState extends State<MenuPage> {
                   context,
                   'Pontuação',
                   Icons.leaderboard,
-                  Colors.red,
+                  AppColors.primary,
                   () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Abrindo pontuações...')),
@@ -98,7 +99,7 @@ class _MenuPageState extends State<MenuPage> {
                   context,
                   'Configurações',
                   Icons.settings,
-                  Colors.red,
+                  AppColors.primary,
                   () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Abrindo configurações...')),
@@ -106,9 +107,15 @@ class _MenuPageState extends State<MenuPage> {
                   },
                 ),
                 const SizedBox(height: 24),
-                _buildMenuButton(context, 'Sair', Icons.logout, Colors.red, () {
-                  Navigator.pop(context);
-                }),
+                _buildMenuButton(
+                  context,
+                  'Sair',
+                  Icons.logout,
+                  AppColors.primary,
+                  () {
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
           ),
@@ -144,12 +151,10 @@ class _MenuPageState extends State<MenuPage> {
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: isHovering
-                  ? Color(
-                      color.value & 0x33FFFFFF,
-                    ) // Otimizado: color.withOpacity(0.2)
-                  : Colors.white,
+                  ? AppColors.tertiary
+                  : AppColors.primary,
               foregroundColor: Colors.black,
-              shadowColor: isHovering ? color : Colors.grey,
+              shadowColor: isHovering ? AppColors.tertiary : Colors.grey,
               elevation: isHovering ? 12 : 4,
             ),
           ),
