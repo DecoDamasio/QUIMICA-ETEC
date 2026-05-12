@@ -100,11 +100,10 @@ class _LoginForm extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/images/Gemini_Generated_Image_4uz34j4uz34j4uz3 - 01.png', // <-- MUDE O NOME DO ARQUIVO AQUI
+                        'assets/images/Gemini_Generated_Image_4uz34j4uz34j4uz3 - 01.png', 
                         height: 50,
                         width: 50,
                         fit: BoxFit.cover,
-                        // Se a imagem não for encontrada, mostra um ícone de erro
                         errorBuilder: (context, error, stackTrace) =>
                             const Icon(
                               Icons.science,
