@@ -3,6 +3,7 @@ import 'package:lab_game/widgets/buttons.dart';
 import 'package:lab_game/widgets/UserType.dart';
 import '../../theme/app_text_styles.dart';
 import 'menu/menu_page.dart';
+import 'menu/menu_page_professor.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -243,12 +244,22 @@ class _LoginForm extends StatelessWidget {
         ),
       );
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MenuPage(username: loginController.text),
-        ),
-      );
+      if (!isStudentSelected) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ProfessorMenuPage(username: loginController.text),
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MenuPage(username: loginController.text),
+          ),
+        );
+      }
     }
   }
 }
