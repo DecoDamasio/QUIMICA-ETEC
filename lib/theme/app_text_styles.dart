@@ -5,7 +5,7 @@ class AppTextStyles {
   static TextStyle pageTitle = GoogleFonts.poppins(
     fontSize: 32,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: const Color.fromARGB(255, 0, 0, 0),
   );
 
   static TextStyle buttonText = GoogleFonts.poppins(

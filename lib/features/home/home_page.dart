@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lab_game/widgets/buttons.dart';
+import 'package:lab_game/widgets/UserType.dart';
 import '../../theme/app_text_styles.dart';
 import 'menu/menu_page.dart';
 
@@ -14,6 +15,8 @@ class _HomePageState extends State<HomePage> {
   late final TextEditingController _loginController;
   late final TextEditingController _senhaController;
   bool _isHovering = false;
+  // Variável de estado para o tipo de usuário
+  bool _isStudentSelected = true;
 
   @override
   void initState() {
@@ -40,11 +43,13 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        // O AppBar foi removido para o título ficar harmonioso com o login no body
         body: _LoginForm(
           loginController: _loginController,
           senhaController: _senhaController,
           isHovering: _isHovering,
+          isStudentSelected: _isStudentSelected, // Passando o estado
+          onUserTypeChanged: (isStudent) =>
+              setState(() => _isStudentSelected = isStudent),
           onHoverChanged: (hovering) => setState(() => _isHovering = hovering),
         ),
       ),
@@ -57,18 +62,23 @@ class _LoginForm extends StatelessWidget {
     required this.loginController,
     required this.senhaController,
     required this.isHovering,
+    required this.isStudentSelected,
+    required this.onUserTypeChanged,
     required this.onHoverChanged,
   });
 
   final TextEditingController loginController;
   final TextEditingController senhaController;
   final bool isHovering;
+  final bool isStudentSelected;
+  final ValueChanged<bool> onUserTypeChanged;
   final ValueChanged<bool> onHoverChanged;
 
   @override
   Widget build(BuildContext context) {
-    // Definimos 300 como a largura padrão para as duas caixas ficarem iguais
-    const double containerWidth = 300.0;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final double containerWidth = screenWidth > 600 ? 300.0 : screenWidth * 0.9;
+    final double cardSize = screenWidth > 600 ? 75.0 : 60.0;
 
     return Center(
       child: SingleChildScrollView(
@@ -77,9 +87,7 @@ class _LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // =========================================================
-              // NOVO CABEÇALHO (CAIXA BRANCA COM LOGO E TITULO)
-              // =========================================================
+              // CABEÇALHO (LOGO E TITULO)
               Container(
                 width: containerWidth,
                 padding: const EdgeInsets.all(12.0),
@@ -96,11 +104,10 @@ class _LoginForm extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    // MUDANÇA AQUI: Coloque o caminho da sua imagem abaixo
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/images/Gemini_Generated_Image_4uz34j4uz34j4uz3 - 01.png', 
+                        'assets/images/Gemini_Generated_Image_4uz34j4uz34j4uz3 - 01.png',
                         height: 50,
                         width: 50,
                         fit: BoxFit.cover,
@@ -118,10 +125,9 @@ class _LoginForm extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 20), // Espaço entre as caixas
-              // =========================================================
-              // CAIXA DE LOGIN ORIGINAL
-              // =========================================================
+              const SizedBox(height: 20),
+
+              // caixa de login/seletores (widget personalizado)
               Container(
                 width: containerWidth,
                 padding: const EdgeInsets.all(24.0),
@@ -139,6 +145,36 @@ class _LoginForm extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    //seletor
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        UserTypeCard(
+                          label: 'Aluno',
+                          icon: Icons.school_outlined,
+                          isSelected: isStudentSelected,
+                          onTap: () => onUserTypeChanged(true),
+                          width: cardSize,
+                          height: cardSize,
+                        ),
+                        const SizedBox(width: 12),
+                        UserTypeCard(
+                          label: 'Professor',
+                          icon: Icons.co_present_outlined,
+                          isSelected: !isStudentSelected,
+                          onTap: () => onUserTypeChanged(false),
+                          width: cardSize,
+                          height: cardSize,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      "(Tipo de Usuário)",
+                      style: TextStyle(fontSize: 10, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 16),
+
                     const Text(
                       'Login',
                       style: TextStyle(
