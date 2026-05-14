@@ -10,11 +10,11 @@ class ProfessorMenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD1DEE0), // Fundo acinzentado da image_6508bb.png
+      backgroundColor: const Color(0xFFD1DEE0), 
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Lógica de responsividade: abaixo de 600px vira layout de celular
+            
             bool isMobile = constraints.maxWidth < 600;
 
             return SingleChildScrollView(

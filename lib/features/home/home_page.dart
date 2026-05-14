@@ -17,8 +17,6 @@ class _HomePageState extends State<HomePage> {
   late final TextEditingController _loginController;
   late final TextEditingController _senhaController;
   bool _isHovering = false;
-
-  // Variável de estado para o tipo de usuário
   bool _isStudentSelected = true;
 
   @override
@@ -81,32 +79,23 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
-    final double containerWidth =
-        screenWidth > 600 ? 300.0 : screenWidth * 0.9;
-
-    final double cardSize =
-        screenWidth > 600 ? 75.0 : 60.0;
+    final double containerWidth = screenWidth > 600 ? 300.0 : screenWidth * 0.9;
+    final double cardSize = screenWidth > 600 ? 75.0 : 60.0;
 
     return Center(
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-
           child: Column(
             mainAxisSize: MainAxisSize.min,
-
             children: [
-
               // CABEÇALHO
               Container(
                 width: containerWidth,
                 padding: const EdgeInsets.all(12.0),
-
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
-
                   boxShadow: const [
                     BoxShadow(
                       color: Color(0x1A000000),
@@ -115,50 +104,32 @@ class _LoginForm extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 child: Row(
                   children: [
-
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-
                       child: Image.asset(
                         'assets/images/Gemini_Generated_Image_4uz34j4uz34j4uz3 - 01.png',
                         height: 50,
                         width: 50,
                         fit: BoxFit.cover,
-
-                        errorBuilder:
-                            (context, error, stackTrace) =>
-                                const Icon(
-                                  Icons.science,
-                                  size: 50,
-                                  color: Colors.cyan,
-                                ),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.science, size: 50, color: Colors.cyan),
                       ),
                     ),
-
                     const SizedBox(width: 15),
-
-                    Text(
-                      'Lab Game',
-                      style: AppTextStyles.pageTitle,
-                    ),
+                    Text('Lab Game', style: AppTextStyles.pageTitle),
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
-
               // CAIXA LOGIN
               Container(
                 width: containerWidth,
                 padding: const EdgeInsets.all(24.0),
-
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-
                   boxShadow: const [
                     BoxShadow(
                       color: Color(0x1A000000),
@@ -167,130 +138,72 @@ class _LoginForm extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-
                   children: [
-
-                    // SELETOR DE USUÁRIO
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center,
-
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-
                         UserTypeCard(
                           label: 'Aluno',
                           icon: Icons.school_outlined,
                           isSelected: isStudentSelected,
-                          onTap: () =>
-                              onUserTypeChanged(true),
+                          onTap: () => onUserTypeChanged(true),
                           width: cardSize,
                           height: cardSize,
                         ),
-
                         const SizedBox(width: 12),
-
                         UserTypeCard(
                           label: 'Professor',
                           icon: Icons.co_present_outlined,
                           isSelected: !isStudentSelected,
-                          onTap: () =>
-                              onUserTypeChanged(false),
+                          onTap: () => onUserTypeChanged(false),
                           width: cardSize,
                           height: cardSize,
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 8),
-
-                    const Text(
-                      "(Tipo de Usuário)",
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey,
-                      ),
-                    ),
-
+                    const Text("(Tipo de Usuário)",
+                        style: TextStyle(fontSize: 10, color: Colors.grey)),
                     const SizedBox(height: 16),
-
-                    const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
+                    const Text('Login',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 24),
-
                     TextField(
                       controller: loginController,
-
                       decoration: const InputDecoration(
                         labelText: 'Login',
                         hintText: 'Digite seu usuário',
-
                         border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                        ),
-
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
                         prefixIcon: Icon(Icons.person),
                       ),
                     ),
-
                     const SizedBox(height: 16),
-
                     TextField(
                       controller: senhaController,
                       obscureText: true,
-
                       decoration: const InputDecoration(
                         labelText: 'Senha',
                         hintText: 'Digite sua senha',
-
                         border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                        ),
-
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
                         prefixIcon: Icon(Icons.lock),
                       ),
                     ),
-
                     const SizedBox(height: 24),
-
                     MouseRegion(
-                      onEnter: (_) =>
-                          onHoverChanged(true),
-
-                      onExit: (_) =>
-                          onHoverChanged(false),
-
+                      onEnter: (_) => onHoverChanged(true),
+                      onExit: (_) => onHoverChanged(false),
                       child: AnimatedScale(
-                        scale:
-                            isHovering ? 1.05 : 1.0,
-
-                        duration:
-                            const Duration(
-                              milliseconds: 200,
-                            ),
-
+                        scale: isHovering ? 1.05 : 1.0,
+                        duration: const Duration(milliseconds: 200),
                         child: SizedBox(
                           width: double.infinity,
-
                           child: WhiteOutlineButton(
                             text: 'Entrar',
-
-                            onPressed: () =>
-                                _handleLogin(context),
+                            onPressed: () => _handleLogin(context),
                           ),
                         ),
                       ),
@@ -306,29 +219,19 @@ class _LoginForm extends StatelessWidget {
   }
 
   void _handleLogin(BuildContext context) async {
-
-    if (loginController.text.isEmpty ||
-        senhaController.text.isEmpty) {
-
+    if (loginController.text.isEmpty || senhaController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Por favor, preencha login e senha!',
-          ),
-
+          content: Text('Por favor, preencha login e senha!'),
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 2),
         ),
       );
-
       return;
     }
 
-    String tipo =
-        isStudentSelected
-            ? "aluno"
-            : "professor";
+    String tipo = isStudentSelected ? "aluno" : "professor";
 
+    
     var resultado = await ApiService.login(
       tipo,
       loginController.text,
@@ -336,44 +239,23 @@ class _LoginForm extends StatelessWidget {
     );
 
     if (resultado["status"] == "sucesso") {
+      final String username = resultado["nome"] ?? loginController.text;
+      
+      
+      bool isProfessor = resultado["tipo"] == "professor";
 
-      if (resultado["tipo"] == "professor") {
-
-        Navigator.push(
-          context,
-
-          MaterialPageRoute(
-            builder: (context) =>
-                ProfessorMenuPage(
-                  username:
-                      loginController.text,
-                ),
-          ),
-        );
-
-      } else {
-
-        Navigator.push(
-          context,
-
-          MaterialPageRoute(
-            builder: (context) =>
-                MenuPage(
-                  username:
-                      loginController.text,
-                ),
-          ),
-        );
-      }
-
+      Navigator.pushReplacement( 
+        context,
+        MaterialPageRoute(
+          builder: (context) => isProfessor
+              ? ProfessorMenuPage(username: username)
+              : MenuPage(username: username),
+        ),
+      );
     } else {
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Login ou senha incorretos!',
-          ),
-
+          content: Text('Login ou senha incorretos!'),
           backgroundColor: Colors.red,
         ),
       );
