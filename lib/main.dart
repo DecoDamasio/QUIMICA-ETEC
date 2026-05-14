@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'features/home/home_page.dart';
+import 'api_service.dart';
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  var resultado = await ApiService.login(
+    "aluno",
+    "demetrius@aluno.cps.gov.br",
+    "123",
+  );
+
+  print(resultado);
+
   runApp(const MyApp());
 }
 
