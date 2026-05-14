@@ -9,6 +9,8 @@ class LevelCard extends StatelessWidget {
   final int stars;
   final Color accentColor;
   final bool isLocked;
+  final VoidCallback? onQuizPressed;
+  final VoidCallback? onAssociacaoPressed;
 
   const LevelCard({
     super.key,
@@ -19,17 +21,21 @@ class LevelCard extends StatelessWidget {
     this.stars = 0,
     required this.accentColor,
     this.isLocked = false,
+    this.onQuizPressed,
+    this.onAssociacaoPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     // cores
     final Color currentAccent = isLocked ? Colors.grey.shade300 : accentColor;
-    final Color cardBorder = isLocked ? Colors.grey.shade200 : currentAccent.withOpacity(0.3);
+    final Color cardBorder = isLocked
+        ? Colors.grey.shade200
+        : currentAccent.withOpacity(0.3);
 
     return Container(
-      // cabe 2 por linha 
-      width: (MediaQuery.of(context).size.width / 2) - 36, 
+      // cabe 2 por linha
+      width: (MediaQuery.of(context).size.width / 2) - 36,
       constraints: const BoxConstraints(minWidth: 300),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -47,26 +53,54 @@ class LevelCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text(subtitle, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13), overflow: TextOverflow.ellipsis),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 13,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),
-              isLocked 
-                ? Icon(Icons.lock_outline, color: Colors.grey.shade400)
-                : Row(
-                    children: List.generate(3, (i) => Icon(
-                      Icons.star, size: 18, color: i < stars ? Colors.amber : Colors.grey[300]
-                    )),
-                  ),
+              isLocked
+                  ? Icon(Icons.lock_outline, color: Colors.grey.shade400)
+                  : Row(
+                      children: List.generate(
+                        3,
+                        (i) => Icon(
+                          Icons.star,
+                          size: 18,
+                          color: i < stars ? Colors.amber : Colors.grey[300],
+                        ),
+                      ),
+                    ),
             ],
           ),
           const SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Progresso", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-              Text("${(progress * 100).toInt()}%", style: TextStyle(fontSize: 12, color: currentAccent, fontWeight: FontWeight.bold)),
+              const Text(
+                "Progresso",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                "${(progress * 100).toInt()}%",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: currentAccent,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -80,38 +114,68 @@ class LevelCard extends StatelessWidget {
           const SizedBox(height: 15),
           Row(
             children: [
-              Icon(Icons.bolt, color: isLocked ? Colors.grey : Colors.orange, size: 18),
-              const Text(" Pontuação: ", style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-              Text("$score", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              Icon(
+                Icons.bolt,
+                color: isLocked ? Colors.grey : Colors.orange,
+                size: 18,
+              ),
+              const Text(
+                " Pontuação: ",
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+              ),
+              Text(
+                "$score",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),
           Row(
             children: [
-              _buildBtn("Quiz", isPrimary: true),
+              _buildBtn("Quiz", isPrimary: true, onPressed: onQuizPressed),
               const SizedBox(width: 10),
-              _buildBtn("Associação", isPrimary: false),
+              _buildBtn(
+                "Associação",
+                isPrimary: false,
+                onPressed: onAssociacaoPressed,
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildBtn(String label, {required bool isPrimary}) {
+  Widget _buildBtn(
+    String label, {
+    required bool isPrimary,
+    VoidCallback? onPressed,
+  }) {
     return Expanded(
       child: ElevatedButton(
-        onPressed: isLocked ? null : () {},
+        onPressed: isLocked ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isPrimary ? (isLocked ? Colors.grey.shade100 : AppColors.primary) : Colors.transparent,
+          backgroundColor: isPrimary
+              ? (isLocked ? Colors.grey.shade100 : AppColors.primary)
+              : Colors.transparent,
           foregroundColor: isPrimary ? Colors.white : AppColors.primary,
           elevation: 0,
-          side: !isPrimary && !isLocked ? const BorderSide(color: AppColors.primary) : BorderSide.none,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          side: !isPrimary && !isLocked
+              ? const BorderSide(color: AppColors.primary)
+              : BorderSide.none,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           padding: const EdgeInsets.symmetric(vertical: 12),
           disabledBackgroundColor: Colors.grey.shade100,
         ),
-        child: Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+        child: Text(
+          label,
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

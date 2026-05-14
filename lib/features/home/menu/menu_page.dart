@@ -3,6 +3,7 @@ import '../../../theme/app_colors.dart';
 import '../../../widgets/level_card.dart';
 import '../../../widgets/profile_card.dart';
 import '../../../widgets/custom_header.dart';
+import '../quizpage.dart';
 
 class MenuPage extends StatelessWidget {
   final String username;
@@ -24,20 +25,23 @@ class MenuPage extends StatelessWidget {
               const SizedBox(height: 32),
               ProfileCard(username: username),
               const SizedBox(height: 32),
-              
+
               // 2 por linha (Wrap para responsividade)
               Wrap(
                 spacing: 20,
                 runSpacing: 20,
                 alignment: WrapAlignment.center,
                 children: [
-                  const LevelCard(
+                  LevelCard(
                     title: "Nível 1",
                     subtitle: "Vidrarias Básicas",
                     progress: 1.0,
                     score: 850,
                     stars: 3,
                     accentColor: AppColors.success,
+                    onQuizPressed: () => Navigator.of(
+                      context,
+                    ).push(MaterialPageRoute(builder: (_) => const QuizPage())),
                   ),
                   const LevelCard(
                     title: "Nível 2",
