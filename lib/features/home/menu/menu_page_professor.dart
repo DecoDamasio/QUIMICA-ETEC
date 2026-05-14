@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// Substitua pelos seus caminhos reais de importação
 import '../../../widgets/admin_card.dart'; 
 import '../../../widgets/quickstatusitem.dart';
 
@@ -34,7 +33,7 @@ class ProfessorMenuPage extends StatelessWidget {
                     crossAxisCount: isMobile ? 1 : 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    // Proporção do card: no mobile ele fica mais largo/achatado
+                    // proporçao pra mobile
                     childAspectRatio: isMobile ? 2.1 : 1.4, 
                     children: [
                       AdminCard(
@@ -80,7 +79,7 @@ class ProfessorMenuPage extends StatelessWidget {
     );
   }
 
-  // Widget Interno para o Cabeçalho
+  // widget cabeçalho
   Widget _buildHeader(bool isMobile) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -118,7 +117,7 @@ class ProfessorMenuPage extends StatelessWidget {
               ],
             ),
           ),
-          // No mobile, mostramos apenas um status ou escondemos para não apertar
+          // mostrar menos informações no mobile
           if (!isMobile) ...[
             const QuickStatusItem(
               icon: Icons.group, 
