@@ -3,7 +3,6 @@ import '../../api_service.dart';
 import 'menu/menu_page.dart';
 import 'menu/menu_page_professor.dart';
 
-// Modelo para organizar suas perguntas
 class Question {
   final String id;
   final String title;
@@ -28,7 +27,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  // Exemplo de pergunta baseada na sua imagem
   final Question currentQuestion = Question(
     id: "3",
     title: "Identifique o equipamento de laboratório apresentado na imagem:",
@@ -42,7 +40,6 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Mantendo o padrão de fundo da sua HomePage
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/2025_plano_de_fundo_teams_op2.png'),
@@ -64,7 +61,7 @@ class _QuizPageState extends State<QuizPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Indicador de Progresso (como na Captura de tela 2026-05-12 212846.png)
+              
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: const LinearProgressIndicator(
@@ -76,7 +73,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               const SizedBox(height: 20),
 
-              // Cabeçalho de Pontos e Tempo
+              
               Row(
                 children: [
                   _buildStatusCard("Pontos", "850", Icons.bolt, Colors.orange),
@@ -86,7 +83,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               const SizedBox(height: 20),
 
-              // Card Central da Pergunta (Seguindo o estilo de container da sua HomePage)
+              
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -100,7 +97,7 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     const SizedBox(height: 20),
                     
-                    // Simulação da área da imagem (Dashed Border pode ser feito com o package dotted_border)
+                    
                     Container(
                       height: 180,
                       width: double.infinity,
@@ -115,7 +112,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               const SizedBox(height: 20),
 
-              // Grid de Alternativas (como na image_740c02.png)
+              
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -160,7 +157,7 @@ class _QuizPageState extends State<QuizPage> {
               
               const SizedBox(height: 30),
 
-              // Botão Confirmar (Estilo principal)
+              
               SizedBox(
                 width: double.infinity,
                 height: 55,
@@ -184,7 +181,7 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  // Helper para criar a decoração dos cards branca igual a sua HomePage
+  
   BoxDecoration _cardDecoration() {
     return BoxDecoration(
       color: Colors.white,
@@ -199,7 +196,7 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  // Helper para os cards de status do topo
+  
   Widget _buildStatusCard(String label, String value, IconData icon, Color color) {
     return Expanded(
       child: Container(
