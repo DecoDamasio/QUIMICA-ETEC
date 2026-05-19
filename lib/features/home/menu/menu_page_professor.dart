@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../widgets/admin_card.dart'; 
+import '../../../widgets/admin_card.dart';
 import '../../../widgets/quickstatusitem.dart';
+import 'cadastrar_aluno_page.dart';
 
 class ProfessorMenuPage extends StatelessWidget {
   final String username;
@@ -10,11 +11,10 @@ class ProfessorMenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD1DEE0), 
+      backgroundColor: const Color(0xFFD1DEE0),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            
             bool isMobile = constraints.maxWidth < 600;
 
             return SingleChildScrollView(
@@ -23,7 +23,7 @@ class ProfessorMenuPage extends StatelessWidget {
                 children: [
                   // --- HEADER ---
                   _buildHeader(isMobile),
-                  
+
                   const SizedBox(height: 24),
 
                   // --- GRID DE AÇÕES ---
@@ -34,7 +34,7 @@ class ProfessorMenuPage extends StatelessWidget {
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     // proporçao pra mobile
-                    childAspectRatio: isMobile ? 2.1 : 1.4, 
+                    childAspectRatio: isMobile ? 2.1 : 1.4,
                     children: [
                       AdminCard(
                         title: "Gerenciar Alunos",
@@ -42,7 +42,12 @@ class ProfessorMenuPage extends StatelessWidget {
                         icon: Icons.people_alt_rounded,
                         accentColor: const Color(0xFF4ADE80),
                         buttonText: "Acessar",
-                        onTap: () => print("Navegar para Alunos"),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CadastrarAlunoPage(),
+                          ),
+                        ),
                       ),
                       AdminCard(
                         title: "Novas Questões",
@@ -93,9 +98,9 @@ class ProfessorMenuPage extends StatelessWidget {
             radius: isMobile ? 25 : 30,
             backgroundColor: const Color(0xFF2387FF),
             child: Icon(
-              Icons.person, 
-              color: Colors.white, 
-              size: isMobile ? 30 : 35
+              Icons.person,
+              color: Colors.white,
+              size: isMobile ? 30 : 35,
             ),
           ),
           const SizedBox(width: 15),
@@ -106,8 +111,8 @@ class ProfessorMenuPage extends StatelessWidget {
                 Text(
                   "Prof. $username",
                   style: TextStyle(
-                    fontSize: isMobile ? 18 : 22, 
-                    fontWeight: FontWeight.bold
+                    fontSize: isMobile ? 18 : 22,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Text(
@@ -120,15 +125,15 @@ class ProfessorMenuPage extends StatelessWidget {
           // mostrar menos informações no mobile
           if (!isMobile) ...[
             const QuickStatusItem(
-              icon: Icons.group, 
-              value: "42", 
-              label: "Alunos"
+              icon: Icons.group,
+              value: "42",
+              label: "Alunos",
             ),
             const SizedBox(width: 20),
             const QuickStatusItem(
-              icon: Icons.quiz, 
-              value: "12", 
-              label: "Ativos"
+              icon: Icons.quiz,
+              value: "12",
+              label: "Ativos",
             ),
           ],
         ],
