@@ -3,6 +3,7 @@ import '../../../widgets/admin_card.dart';
 import '../../../widgets/quickstatusitem.dart';
 import 'cadastrar_aluno_page.dart';
 import 'gerenciar_niveis_page.dart';
+import 'ranking_page.dart';
 
 class ProfessorMenuPage extends StatelessWidget {
   final String username;
@@ -72,7 +73,7 @@ class ProfessorMenuPage extends StatelessWidget {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const GerenciarNiveisPage(),
+                            builder: (context) => const RankingAlunosScreen(),
                           ),
                         ),  
                       ),
