@@ -3,7 +3,7 @@ import '../../../theme/app_colors.dart';
 import '../../../widgets/level_card.dart';
 import '../../../widgets/profile_card.dart';
 import '../../../widgets/custom_header.dart';
-import '../quizpage.dart';
+import '../../quiz/quiz_page.dart';
 
 class MenuPage extends StatelessWidget {
   final String username;
