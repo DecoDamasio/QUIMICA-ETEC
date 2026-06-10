@@ -230,6 +230,22 @@ class _LoginForm extends StatelessWidget {
     }
 
     String tipo = isStudentSelected ? "aluno" : "professor";
+    // LOGIN DE DESENVOLVIMENTO
+
+if (loginController.text == "dev" &&
+    senhaController.text == "123") {
+
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => isStudentSelected
+          ? MenuPage(username: "Desenvolvedor")
+          : ProfessorMenuPage(username: "Desenvolvedor"),
+    ),
+  );
+
+  return;
+}
 
     
     var resultado = await ApiService.login(

@@ -3,7 +3,7 @@ import '../../../theme/app_colors.dart';
 import '../../../widgets/level_card.dart';
 import '../../../widgets/profile_card.dart';
 import '../../../widgets/custom_header.dart';
-import '../../quiz/quiz_page.dart';
+import '../../quiz/assosciacao_page.dart';
 
 class MenuPage extends StatelessWidget {
   final String username;
@@ -39,9 +39,11 @@ class MenuPage extends StatelessWidget {
                     score: 850,
                     stars: 3,
                     accentColor: AppColors.success,
-                    onQuizPressed: () => Navigator.of(
-                      context,
-                    ).push(MaterialPageRoute(builder: (_) => const QuizPage())),
+                    onQuizPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const AssociationPage(),
+                      ),
+                    ),
                   ),
                   const LevelCard(
                     title: "Nível 2",
