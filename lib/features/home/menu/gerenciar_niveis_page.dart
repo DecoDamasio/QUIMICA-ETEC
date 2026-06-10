@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/universal_back_button.dart';
 
 class GerenciarNiveisPage extends StatelessWidget {
   const GerenciarNiveisPage({super.key});
@@ -197,27 +198,12 @@ class GerenciarNiveisPage extends StatelessWidget {
   }
 
   Widget _botaoVoltar(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      icon: const Icon(Icons.arrow_back),
-      label: const Text(
-        'Voltar',
-        style: TextStyle(fontSize: 17),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF24324B),
-        elevation: 4,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 20,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-      ),
+    return const UniversalBackButton(
+      label: 'Voltar',
+      backgroundColor: Colors.white,
+      foregroundColor: Color(0xFF24324B),
+      iconColor: Color(0xFF24324B),
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lab_game/widgets/components_quiz/action_button.dart';
 import 'package:lab_game/widgets/components_quiz/alternativa_card.dart';
 import 'package:lab_game/widgets/components_quiz/quiz_header.dart';
+import 'package:lab_game/widgets/universal_back_button.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key}) : super(key: key);
@@ -36,16 +37,14 @@ class _QuizPageState extends State<QuizPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black87),
-                    onPressed: () {},
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: const EdgeInsets.all(12),
-                    ),
+                  const UniversalBackButton(
+                    iconMode: true,
+                    iconColor: Colors.black87,
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black87,
+                    padding: EdgeInsets.all(12),
                   ),
                   const SizedBox(width: 16),
                   const Column(
@@ -69,7 +68,6 @@ class _QuizPageState extends State<QuizPage> {
               ),
               const SizedBox(height: 16),
 
-              
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: const LinearProgressIndicator(
@@ -81,11 +79,9 @@ class _QuizPageState extends State<QuizPage> {
               ),
               const SizedBox(height: 24),
 
-              
               const QuizHeader(points: 850, time: '02:45'),
               const SizedBox(height: 24),
 
-              
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -97,7 +93,6 @@ class _QuizPageState extends State<QuizPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     Container(
                       width: double.infinity,
                       height: isWeb ? 300 : 200,
@@ -105,8 +100,7 @@ class _QuizPageState extends State<QuizPage> {
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: Colors.grey.shade300,
-                          style: BorderStyle
-                              .solid, 
+                          style: BorderStyle.solid,
                         ),
                         color: const Color(0xFFFAFAFA),
                       ),
@@ -156,7 +150,6 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     const SizedBox(height: 24),
 
-                    
                     isWeb
                         ? GridView.builder(
                             shrinkWrap: true,
@@ -214,7 +207,6 @@ class _QuizPageState extends State<QuizPage> {
               ),
               const SizedBox(height: 32),
 
-              
               SizedBox(
                 width: double.infinity,
                 height: 56,

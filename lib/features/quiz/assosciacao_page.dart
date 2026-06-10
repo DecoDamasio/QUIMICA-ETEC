@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lab_game/widgets/components_quiz/associacao_header.dart';
 import 'package:lab_game/widgets/components_quiz/ligacao_item.dart';
+import 'package:lab_game/widgets/universal_back_button.dart';
 
 class AssociationPage extends StatefulWidget {
   const AssociationPage({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _AssociationPageState extends State<AssociationPage> {
     'Pesar substâncias',
     'Transferir líquidos',
     'Medir volumes precisos',
-    'Misturar soluções'
+    'Misturar soluções',
   ];
 
   // Estado de seleção atual
@@ -81,13 +82,12 @@ class _AssociationPageState extends State<AssociationPage> {
                     // Topo: Título da atividade e botão Voltar
                     Row(
                       children: [
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.black87),
-                          onPressed: () {},
-                          style: IconButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.all(12),
-                          ),
+                        const UniversalBackButton(
+                          iconMode: true,
+                          iconColor: Colors.black87,
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black87,
+                          padding: EdgeInsets.all(12),
                         ),
                         const SizedBox(width: 16),
                         const Column(
@@ -95,11 +95,18 @@ class _AssociationPageState extends State<AssociationPage> {
                           children: [
                             Text(
                               'Associação - Nível 1',
-                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1E293B)),
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E293B),
+                              ),
                             ),
                             Text(
                               'Conecte os materiais às suas funções',
-                              style: TextStyle(color: Colors.grey, fontSize: 14),
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
                         ),
@@ -133,14 +140,40 @@ class _AssociationPageState extends State<AssociationPage> {
                           Expanded(
                             child: RichText(
                               text: const TextSpan(
-                                style: TextStyle(color: Color(0xFF1E40AF), fontSize: 14, height: 1.4),
+                                style: TextStyle(
+                                  color: Color(0xFF1E40AF),
+                                  fontSize: 14,
+                                  height: 1.4,
+                                ),
                                 children: [
-                                  TextSpan(text: 'Como funciona:\n', style: TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: 'Clique em um item da coluna '),
-                                  TextSpan(text: 'Material', style: TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: ' e depois em um item da coluna '),
-                                  TextSpan(text: 'Função', style: TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: ' para criar uma conexão. Conecte todos os pares corretamente!'),
+                                  TextSpan(
+                                    text: 'Como funciona:\n',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: 'Clique em um item da coluna ',
+                                  ),
+                                  TextSpan(
+                                    text: 'Material',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ' e depois em um item da coluna ',
+                                  ),
+                                  TextSpan(
+                                    text: 'Função',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        ' para criar uma conexão. Conecte todos os pares corretamente!',
+                                  ),
                                 ],
                               ),
                             ),
@@ -159,23 +192,23 @@ class _AssociationPageState extends State<AssociationPage> {
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: Colors.grey.shade200),
                       ),
-                      child: isWeb 
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(child: _buildMaterialColumn()),
-                              const SizedBox(width: 48),
-                              Expanded(child: _buildFunctionColumn()),
-                            ],
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildMaterialColumn(),
-                              const SizedBox(height: 32),
-                              _buildFunctionColumn(),
-                            ],
-                          ),
+                      child: isWeb
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(child: _buildMaterialColumn()),
+                                const SizedBox(width: 48),
+                                Expanded(child: _buildFunctionColumn()),
+                              ],
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildMaterialColumn(),
+                                const SizedBox(height: 32),
+                                _buildFunctionColumn(),
+                              ],
+                            ),
                     ),
                   ],
                 ),
@@ -198,12 +231,26 @@ class _AssociationPageState extends State<AssociationPage> {
                     flex: isWeb ? 1 : 2,
                     child: OutlinedButton.icon(
                       onPressed: _clearAll,
-                      icon: const Icon(Icons.delete_outline, color: Color(0xFF475569)),
-                      label: const Text('Limpar Tudo', style: TextStyle(color: Color(0xFF475569), fontWeight: FontWeight.bold)),
+                      icon: const Icon(
+                        Icons.delete_outline,
+                        color: Color(0xFF475569),
+                      ),
+                      label: const Text(
+                        'Limpar Tudo',
+                        style: TextStyle(
+                          color: Color(0xFF475569),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 18),
-                        side: BorderSide(color: Colors.grey.shade300, width: 1.5),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        side: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ),
@@ -211,17 +258,25 @@ class _AssociationPageState extends State<AssociationPage> {
                   Expanded(
                     flex: 3,
                     child: ElevatedButton(
-                      onPressed: completedMatches.length == materials.length ? () {} : null,
+                      onPressed: completedMatches.length == materials.length
+                          ? () {}
+                          : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6366F1),
                         disabledBackgroundColor: const Color(0xFFCBD5E1),
                         padding: const EdgeInsets.symmetric(vertical: 18),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         elevation: 0,
                       ),
                       child: const Text(
                         'Verificar Respostas',
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -239,7 +294,11 @@ class _AssociationPageState extends State<AssociationPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildBadgeLabel('MATERIAL', const Color(0xFF3B82F6), Icons.inventory_2),
+        _buildBadgeLabel(
+          'MATERIAL',
+          const Color(0xFF3B82F6),
+          Icons.inventory_2,
+        ),
         const SizedBox(height: 16),
         ListView.separated(
           shrinkWrap: true,
@@ -266,7 +325,11 @@ class _AssociationPageState extends State<AssociationPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildBadgeLabel('FUNÇÃO', const Color(0xFF06B6D4), Icons.track_changes),
+        _buildBadgeLabel(
+          'FUNÇÃO',
+          const Color(0xFF06B6D4),
+          Icons.track_changes,
+        ),
         const SizedBox(height: 16),
         ListView.separated(
           shrinkWrap: true,
@@ -303,7 +366,12 @@ class _AssociationPageState extends State<AssociationPage> {
           const SizedBox(width: 8),
           Text(
             text,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 13, letterSpacing: 0.5),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+              fontSize: 13,
+              letterSpacing: 0.5,
+            ),
           ),
         ],
       ),

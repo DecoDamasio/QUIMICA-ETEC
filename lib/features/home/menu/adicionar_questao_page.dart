@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/universal_back_button.dart';
 
 class AdicionarQuestaoPage extends StatefulWidget {
   const AdicionarQuestaoPage({super.key});
@@ -17,17 +18,9 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
   String? nivelSelecionado;
   String? tipoSelecionado;
 
-  final List<String> niveis = [
-    'Nível 1',
-    'Nível 2',
-    'Nível 3',
-    'Nível 4',
-  ];
+  final List<String> niveis = ['Nível 1', 'Nível 2', 'Nível 3', 'Nível 4'];
 
-  final List<String> tipos = [
-    'Quiz',
-    'Associação',
-  ];
+  final List<String> tipos = ['Quiz', 'Associação'];
 
   @override
   void dispose() {
@@ -80,9 +73,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
 
                   const SizedBox(height: 34),
 
-                  _cardEstrutura(
-                    telaPequena: telaPequena,
-                  ),
+                  _cardEstrutura(telaPequena: telaPequena),
 
                   const SizedBox(height: 40),
 
@@ -112,10 +103,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: _botaoVoltar(),
-          ),
+          Align(alignment: Alignment.centerRight, child: _botaoVoltar()),
           const SizedBox(height: 18),
           Text(
             'Adicionar Nova Questão',
@@ -128,10 +116,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
           const SizedBox(height: 8),
           const Text(
             'Crie questões de quiz ou associação para os alunos',
-            style: TextStyle(
-              fontSize: 17,
-              color: Color(0xFF34435E),
-            ),
+            style: TextStyle(fontSize: 17, color: Color(0xFF34435E)),
           ),
         ],
       );
@@ -155,10 +140,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
               SizedBox(height: 8),
               Text(
                 'Crie questões de quiz ou associação para os alunos',
-                style: TextStyle(
-                  fontSize: 19,
-                  color: Color(0xFF34435E),
-                ),
+                style: TextStyle(fontSize: 19, color: Color(0xFF34435E)),
               ),
             ],
           ),
@@ -170,51 +152,29 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
   }
 
   Widget _botaoVoltar() {
-    return ElevatedButton.icon(
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      icon: const Icon(Icons.arrow_back),
-      label: const Text('Voltar'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF24324B),
-        elevation: 4,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 18,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-      ),
+    return const UniversalBackButton(
+      label: 'Voltar',
+      backgroundColor: Colors.white,
+      foregroundColor: Color(0xFF24324B),
+      iconColor: Color(0xFF24324B),
     );
   }
 
-  Widget _cardEstrutura({
-    required bool telaPequena,
-  }) {
+  Widget _cardEstrutura({required bool telaPequena}) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(telaPequena ? 22 : 26),
       decoration: BoxDecoration(
         color: const Color(0xFFF7F2FF),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFE2C4FF),
-          width: 1.8,
-        ),
+        border: Border.all(color: const Color(0xFFE2C4FF), width: 1.8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Row(
             children: [
-              Icon(
-                Icons.layers_outlined,
-                color: Color(0xFF6418B8),
-                size: 28,
-              ),
+              Icon(Icons.layers_outlined, color: Color(0xFF6418B8), size: 28),
               SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -273,10 +233,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
 
           const Text(
             'Total: 20 questões por nível • 4 níveis • 80 questões no jogo completo',
-            style: TextStyle(
-              fontSize: 15,
-              color: Color(0xFF6A00D4),
-            ),
+            style: TextStyle(fontSize: 15, color: Color(0xFF6A00D4)),
           ),
         ],
       ),
@@ -411,10 +368,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Color(0xFFB000FF),
-            Color(0xFF235DF4),
-          ],
+          colors: [Color(0xFFB000FF), Color(0xFF235DF4)],
         ),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18),
@@ -423,11 +377,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 30,
-          ),
+          const Icon(Icons.add, color: Colors.white, size: 30),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -450,13 +400,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
     required Widget segundo,
   }) {
     if (telaPequena) {
-      return Column(
-        children: [
-          primeiro,
-          const SizedBox(height: 28),
-          segundo,
-        ],
-      );
+      return Column(children: [primeiro, const SizedBox(height: 28), segundo]);
     }
 
     return Row(
@@ -474,10 +418,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
       height: 64,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFFB000FF),
-            Color(0xFF235DF4),
-          ],
+          colors: [Color(0xFFB000FF), Color(0xFF235DF4)],
         ),
         borderRadius: BorderRadius.circular(16),
       ),
@@ -486,10 +427,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
         icon: const Icon(Icons.save_outlined),
         label: const Text(
           'Salvar Questão',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
@@ -510,47 +448,30 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
         },
         style: OutlinedButton.styleFrom(
           foregroundColor: const Color(0xFF24324B),
-          side: const BorderSide(
-            color: Color(0xFFC3CDDD),
-            width: 1.7,
-          ),
+          side: const BorderSide(color: Color(0xFFC3CDDD), width: 1.7),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        child: const Text(
-          'Cancelar',
-          style: TextStyle(fontSize: 18),
-        ),
+        child: const Text('Cancelar', style: TextStyle(fontSize: 18)),
       ),
     );
 
     if (telaPequena) {
       return Column(
         children: [
-          SizedBox(
-            width: double.infinity,
-            child: botaoSalvar,
-          ),
+          SizedBox(width: double.infinity, child: botaoSalvar),
           const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: botaoCancelar,
-          ),
+          SizedBox(width: double.infinity, child: botaoCancelar),
         ],
       );
     }
 
     return Row(
       children: [
-        Expanded(
-          flex: 5,
-          child: botaoSalvar,
-        ),
+        Expanded(flex: 5, child: botaoSalvar),
         const SizedBox(width: 20),
-        Expanded(
-          child: botaoCancelar,
-        ),
+        Expanded(child: botaoCancelar),
       ],
     );
   }
@@ -567,10 +488,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _labelCampo(
-          label: label,
-          icon: icon,
-        ),
+        _labelCampo(label: label, icon: icon),
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(
           value: valor,
@@ -585,10 +503,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
           items: itens.map((item) {
             return DropdownMenuItem<String>(
               value: item,
-              child: Text(
-                item,
-                overflow: TextOverflow.ellipsis,
-              ),
+              child: Text(item, overflow: TextOverflow.ellipsis),
             );
           }).toList(),
           onChanged: onChanged,
@@ -609,10 +524,7 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _labelCampo(
-          label: label,
-          icon: icon,
-        ),
+        _labelCampo(label: label, icon: icon),
         const SizedBox(height: 12),
         TextFormField(
           controller: controller,
@@ -625,18 +537,11 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
     );
   }
 
-  Widget _labelCampo({
-    required String label,
-    IconData? icon,
-  }) {
+  Widget _labelCampo({required String label, IconData? icon}) {
     return Row(
       children: [
         if (icon != null) ...[
-          Icon(
-            icon,
-            size: 22,
-            color: const Color(0xFF24324B),
-          ),
+          Icon(icon, size: 22, color: const Color(0xFF24324B)),
           const SizedBox(width: 10),
         ],
         Expanded(
@@ -657,43 +562,25 @@ class _AdicionarQuestaoPageState extends State<AdicionarQuestaoPage> {
   InputDecoration _decoracaoCampo(String? hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(
-        color: Colors.black45,
-        fontSize: 17,
-      ),
+      hintStyle: const TextStyle(color: Colors.black45, fontSize: 17),
       filled: true,
       fillColor: const Color(0xFFF8FAFD),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 22,
-        vertical: 22,
-      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Color(0xFFDDE5F0),
-          width: 1.5,
-        ),
+        borderSide: const BorderSide(color: Color(0xFFDDE5F0), width: 1.5),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Color(0xFF8A2BFF),
-          width: 2,
-        ),
+        borderSide: const BorderSide(color: Color(0xFF8A2BFF), width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Colors.red,
-          width: 1.5,
-        ),
+        borderSide: const BorderSide(color: Colors.red, width: 1.5),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Colors.red,
-          width: 2,
-        ),
+        borderSide: const BorderSide(color: Colors.red, width: 2),
       ),
     );
   }
@@ -717,10 +604,7 @@ class _ItemEstrutura extends StatelessWidget {
         Container(
           width: 15,
           height: 15,
-          decoration: BoxDecoration(
-            color: cor,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: cor, shape: BoxShape.circle),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -736,9 +620,7 @@ class _ItemEstrutura extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' - $descricao',
-                  style: const TextStyle(
-                    color: Color(0xFF6A00D4),
-                  ),
+                  style: const TextStyle(color: Color(0xFF6A00D4)),
                 ),
               ],
             ),
