@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
 
-  static const String url =
-      "http://localhost/api_etec/login.php";
+  static const String baseUrl = "http://localhost/api_etec";
 
+  // LOGIN
   static Future<Map<String, dynamic>> login(
     String tipo,
     String email,
@@ -13,7 +13,7 @@ class ApiService {
   ) async {
 
     var response = await http.post(
-      Uri.parse(url),
+      Uri.parse('$baseUrl/login.php'),
       body: {
         "tipo": tipo,
         "email": email,
@@ -22,5 +22,21 @@ class ApiService {
     );
 
     return jsonDecode(response.body);
+  }
+
+  // RANKING
+  static Future<List<dynamic>> buscarRanking() async {
+
+    var response = await http.get(
+      Uri.parse('$baseUrl/ranking.php'),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
+
+    throw Exception(
+      'Erro ao carregar ranking. Status: ${response.statusCode}',
+    );
   }
 }

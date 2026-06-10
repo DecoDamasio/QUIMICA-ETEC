@@ -7,7 +7,6 @@ import 'ranking_page.dart';
 
 class ProfessorMenuPage extends StatelessWidget {
   final String username;
-
   const ProfessorMenuPage({super.key, required this.username});
 
   @override
@@ -36,7 +35,7 @@ class ProfessorMenuPage extends StatelessWidget {
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     // proporçao pra mobile
-                    childAspectRatio: isMobile ? 2.1 : 1.4,
+                    childAspectRatio: isMobile ? 3.0 : 2.5,
                     children: [
                       AdminCard(
                         title: "Gerenciar Alunos",

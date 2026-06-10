@@ -3,6 +3,7 @@ import '../../../widgets/aluno.dart';
 import '../../../widgets/nota_badge.dart';
 import '../../../widgets/acoes_botoes.dart';
 import '../../../widgets/universal_back_button.dart';
+import '../../../api_service.dart';
 
 class RankingAlunosScreen extends StatefulWidget {
   const RankingAlunosScreen({Key? key}) : super(key: key);
@@ -13,16 +14,48 @@ class RankingAlunosScreen extends StatefulWidget {
 
 class _RankingScreenState extends State<RankingAlunosScreen> {
   // dados ficticios (por enquanto)
-  final List<Aluno> alunos = [
-    Aluno(id: 1, nome: 'Ana Silva', nivel1: 85, nivel2: 72),
-    Aluno(id: 2, nome: 'Bruno Costa', nivel1: 95, nivel2: 88, nivel3: 45),
-    Aluno(id: 3, nome: 'Carla Santos', nivel1: 78, nivel2: 65),
-    Aluno(id: 4, nome: 'Daniel Oliveira', nivel1: 90),
-    Aluno(id: 5, nome: 'Eduarda Lima', nivel1: 100, nivel2: 95, nivel3: 82),
-  ];
+  List<Aluno> alunos = [];
+bool carregando = true;
+
+@override
+void initState() {
+  super.initState();
+  carregarAlunos();
+}
+
+Future<void> carregarAlunos() async {
+  try {
+    final dados = await ApiService.buscarRanking();
+
+    setState(() {
+      alunos = dados.map<Aluno>((item) {
+        return Aluno(
+          id: int.parse(item["id"].toString()),
+          nome: item["nome"],
+        );
+      }).toList();
+
+      carregando = false;
+    });
+  } catch (e) {
+    print("Erro ao carregar alunos: $e");
+
+    setState(() {
+      carregando = false;
+    });
+  }
+}
 
   @override
   Widget build(BuildContext context) {
+    
+    if (carregando) {
+  return const Scaffold(
+    body: Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
+}
     return Scaffold(
       backgroundColor: const Color(0xFFF0F2F5),
       appBar: AppBar(
