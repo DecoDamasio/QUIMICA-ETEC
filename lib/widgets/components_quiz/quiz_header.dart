@@ -2,30 +2,26 @@ import 'package:flutter/material.dart';
 
 class QuizHeader extends StatelessWidget {
   final int points;
-  final String time;
+  final String timeLeft;
 
-  const QuizHeader({
-    Key? key,
-    required this.points,
-    required this.time,
-  }) : super(key: key);
+  const QuizHeader({super.key, required this.points, required this.timeLeft});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         _buildInfoCard(
-          icon: Icons.flash_on,
+          icon: Icons.electric_bolt,
           iconColor: Colors.amber,
-          title: 'Pontos',
+          label: 'Pontos',
           value: '$points',
         ),
         const SizedBox(width: 16),
         _buildInfoCard(
-          icon: Icons.access_time_filled,
-          iconColor: Colors.blue,
-          title: 'Tempo',
-          value: time,
+          icon: Icons.access_time,
+          iconColor: Colors.blueAccent,
+          label: 'Tempo',
+          value: timeLeft,
         ),
       ],
     );
@@ -34,45 +30,35 @@ class QuizHeader extends StatelessWidget {
   Widget _buildInfoCard({
     required IconData icon,
     required Color iconColor,
-    required String title,
+    required String label,
     required String value,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
       child: Row(
         children: [
-          Icon(icon, color: iconColor, size: 28),
-          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
               Text(
                 value,
-                style: const TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87),
               ),
             ],
           ),

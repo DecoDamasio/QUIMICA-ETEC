@@ -3,7 +3,7 @@ import '../../../theme/app_colors.dart';
 import '../../../widgets/level_card.dart';
 import '../../../widgets/profile_card.dart';
 import '../../../widgets/custom_header.dart';
-import '../../quiz/assosciacao_page.dart';
+import '../../quiz/quiz_page.dart';
 
 class MenuPage extends StatelessWidget {
   final String username;
@@ -41,7 +41,7 @@ class MenuPage extends StatelessWidget {
                     accentColor: AppColors.success,
                     onQuizPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const AssociationPage(),
+                        builder: (_) => const QuizPage(),
                       ),
                     ),
                   ),
