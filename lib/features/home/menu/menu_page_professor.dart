@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/admin_card.dart';
 import '../../../widgets/quickstatusitem.dart';
+import '../../quiz/add_question.dart';
 import 'cadastrar_aluno_page.dart';
-import 'gerenciar_niveis_page.dart';
 import 'ranking_page.dart';
 
 class ProfessorMenuPage extends StatelessWidget {
@@ -51,18 +51,18 @@ class ProfessorMenuPage extends StatelessWidget {
                         ),
                       ),
                       AdminCard(
-                      title: "Novas Questões",
-                      desc: "Crie novas perguntas para os níveis do quiz.",
-                      icon: Icons.add_task_rounded,
-                      accentColor: const Color(0xFF2387FF),
-                      buttonText: "Criar",
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const GerenciarNiveisPage(),
+                        title: "Novas Questões",
+                        desc: "Crie novas perguntas para os níveis do quiz.",
+                        icon: Icons.add_task_rounded,
+                        accentColor: const Color(0xFF2387FF),
+                        buttonText: "Criar",
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AddQuestionPage(),
+                          ),
                         ),
                       ),
-                    ),
                       AdminCard(
                         title: "Visualizar Ranking",
                         desc: "Veja como está a competição entre as turmas.",
@@ -74,7 +74,7 @@ class ProfessorMenuPage extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => const RankingAlunosScreen(),
                           ),
-                        ),  
+                        ),
                       ),
                       AdminCard(
                         title: "Estatísticas",
