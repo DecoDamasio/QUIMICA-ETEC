@@ -3,6 +3,7 @@ import '../../../theme/app_colors.dart';
 import '../../../widgets/level_card.dart';
 import '../../../widgets/profile_card.dart';
 import '../../../widgets/custom_header.dart';
+import '../../quiz/association_page.dart';
 import '../../quiz/quiz_page.dart';
 
 class MenuPage extends StatelessWidget {
@@ -39,9 +40,12 @@ class MenuPage extends StatelessWidget {
                     score: 850,
                     stars: 3,
                     accentColor: AppColors.success,
-                    onQuizPressed: () => Navigator.of(context).push(
+                    onQuizPressed: () => Navigator.of(
+                      context,
+                    ).push(MaterialPageRoute(builder: (_) => const QuizPage())),
+                    onAssociacaoPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const QuizPage(),
+                        builder: (_) => const AssociationPage(),
                       ),
                     ),
                   ),
