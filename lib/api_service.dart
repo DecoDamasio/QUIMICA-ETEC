@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-
   static const String baseUrl = "http://localhost/api_etec";
 
   // LOGIN
@@ -11,7 +10,6 @@ class ApiService {
     String email,
     String senha,
   ) async {
-
     var response = await http.post(
       Uri.parse('$baseUrl/login.php'),
       body: {
@@ -26,7 +24,6 @@ class ApiService {
 
   // RANKING
   static Future<List<dynamic>> buscarRanking() async {
-
     var response = await http.get(
       Uri.parse('$baseUrl/ranking.php'),
     );
@@ -39,4 +36,43 @@ class ApiService {
       'Erro ao carregar ranking. Status: ${response.statusCode}',
     );
   }
+
+  // DASHBOARD DO ALUNO
+  static Future<Map<String, dynamic>> buscarDashboard(
+    int alunoId,
+  ) async {
+    var response = await http.get(
+      Uri.parse(
+        '$baseUrl/dashboard.php?aluno_id=$alunoId',
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
+
+    throw Exception(
+      'Erro ao carregar dashboard. Status: ${response.statusCode}',
+    );
+  }
+  
+  // BUSCAR QUESTÃO
+static Future<Map<String, dynamic>> buscarQuestao(
+  int nivel,
+) async {
+
+  var response = await http.get(
+    Uri.parse(
+      '$baseUrl/buscar_questao.php?nivel=$nivel',
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  }
+
+  throw Exception(
+    'Erro ao carregar questão. Status: ${response.statusCode}',
+  );
+}
 }

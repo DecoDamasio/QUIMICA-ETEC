@@ -219,62 +219,77 @@ class _LoginForm extends StatelessWidget {
   }
 
   void _handleLogin(BuildContext context) async {
-    if (loginController.text.isEmpty || senhaController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, preencha login e senha!'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
+  if (loginController.text.isEmpty || senhaController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, preencha login e senha!'),
+        backgroundColor: Colors.red,
+      ),
+    );
+    return;
+  }
 
-    String tipo = isStudentSelected ? "aluno" : "professor";
-    // LOGIN DE DESENVOLVIMENTO
+  String tipo = isStudentSelected ? "aluno" : "professor";
 
-if (loginController.text == "dev" &&
-    senhaController.text == "123") {
+  // LOGIN DE DESENVOLVIMENTO
+  if (loginController.text == "dev" &&
+      senhaController.text == "123") {
 
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (context) => isStudentSelected
-          ? MenuPage(username: "Desenvolvedor")
-          : ProfessorMenuPage(username: "Desenvolvedor"),
-    ),
-  );
-
-  return;
-}
-
-    
-    var resultado = await ApiService.login(
-      tipo,
-      loginController.text,
-      senhaController.text,
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => isStudentSelected
+            ? const MenuPage(
+                username: "Desenvolvedor",
+                alunoId: 1,
+              )
+            : const ProfessorMenuPage(
+                username: "Desenvolvedor",
+              ),
+      ),
     );
 
-    if (resultado["status"] == "sucesso") {
-      final String username = resultado["nome"] ?? loginController.text;
-      
-      
-      bool isProfessor = resultado["tipo"] == "professor";
-
-      Navigator.pushReplacement( 
-        context,
-        MaterialPageRoute(
-          builder: (context) => isProfessor
-              ? ProfessorMenuPage(username: username)
-              : MenuPage(username: username),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Login ou senha incorretos!'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+    return;
   }
+
+  var resultado = await ApiService.login(
+    tipo,
+    loginController.text,
+    senhaController.text,
+  );
+
+  if (resultado["status"] == "sucesso") {
+
+    final String username =
+        resultado["nome"] ?? loginController.text;
+
+    final int alunoId =
+        int.parse(resultado["id"].toString());
+
+    bool isProfessor =
+        resultado["tipo"] == "professor";
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => isProfessor
+            ? ProfessorMenuPage(
+                username: username,
+              )
+            : MenuPage(
+                username: username,
+                alunoId: alunoId,
+              ),
+      ),
+    );
+
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Login ou senha incorretos!'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+}
 }
