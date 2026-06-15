@@ -98,13 +98,31 @@ static Future<void> adicionarPontos(
 static Future<void> finalizarNivel(
   int alunoId,
   int nivelId,
+  String tipo,
 ) async {
   await http.post(
     Uri.parse('$baseUrl/finalizar_nivel.php'),
     body: {
       "aluno_id": alunoId.toString(),
       "nivel_id": nivelId.toString(),
+      "tipo": tipo,
     },
+  );
+}
+
+static Future<Map<String, dynamic>> buscarAssociacao(
+  int nivel,
+) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/buscar_associacao.php?nivel=$nivel'),
+  );
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  }
+
+  throw Exception(
+    'Erro ao carregar associação. Status: ${response.statusCode}',
   );
 }
 }

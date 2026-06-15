@@ -239,6 +239,7 @@ class _QuizPageState extends State<QuizPage> {
                                       await ApiService.finalizarNivel(
                                         widget.alunoId,
                                         widget.nivelId,
+                                        "quiz"
                                       );
 
                                       Navigator.pop(context, true);
