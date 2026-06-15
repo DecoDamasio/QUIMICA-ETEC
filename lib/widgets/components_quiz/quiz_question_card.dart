@@ -32,15 +32,15 @@ class QuizQuestionCard extends StatelessWidget {
               )
             ],
           ),
+          
           child: Image.asset(
-            assetPath,
-            height: 45,
-            width: 45,
-            errorBuilder: (context, error, stackTrace) =>
-                const Icon(Icons.science_outlined, size: 40, color: Colors.green),
+                    assetPath,
+                    width: 250,
+                    height: 180,
+                    fit: BoxFit.contain,
+                  )
           ),
         ),
-      ),
-    );
+      );
   }
 }

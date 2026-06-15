@@ -55,7 +55,7 @@ class ApiService {
       'Erro ao carregar dashboard. Status: ${response.statusCode}',
     );
   }
-  
+
   // BUSCAR QUESTÃO
 static Future<Map<String, dynamic>> buscarQuestao(
   int nivel,
@@ -73,6 +73,38 @@ static Future<Map<String, dynamic>> buscarQuestao(
 
   throw Exception(
     'Erro ao carregar questão. Status: ${response.statusCode}',
+  );
+}
+
+static Future<void> adicionarPontos(
+  int alunoId,
+  int nivelId,
+  int pontos,
+) async {
+
+  await http.post(
+    Uri.parse(
+      '$baseUrl/atualizar_pontuacao.php',
+    ),
+    body: {
+      "aluno_id": alunoId.toString(),
+      "nivel_id": nivelId.toString(),
+      "pontos": pontos.toString(),
+    },
+  );
+  
+}
+
+static Future<void> finalizarNivel(
+  int alunoId,
+  int nivelId,
+) async {
+  await http.post(
+    Uri.parse('$baseUrl/finalizar_nivel.php'),
+    body: {
+      "aluno_id": alunoId.toString(),
+      "nivel_id": nivelId.toString(),
+    },
   );
 }
 }

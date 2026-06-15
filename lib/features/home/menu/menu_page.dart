@@ -132,15 +132,23 @@ class _MenuPageState extends State<MenuPage> {
                           accentColor:
                               AppColors.primary,
 
-                          onQuizPressed: () {
-                            Navigator.of(context)
-                                .push(
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    const QuizPage(),
-                              ),
-                            );
-                          },
+                          onQuizPressed: () async {
+                                final atualizou = await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => QuizPage(
+                                      alunoId: widget.alunoId,
+                                      nivelId: int.parse(nivel["id"].toString()),
+                                    ),
+                                  ),
+                                );
+
+                                if (atualizou == true) {
+                                  setState(() {
+                                    dashboardFuture =
+                                        ApiService.buscarDashboard(widget.alunoId);
+                                  });
+                                }
+                              },
 
                           onAssociacaoPressed:
                               () {
