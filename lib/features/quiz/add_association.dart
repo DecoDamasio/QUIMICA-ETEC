@@ -89,6 +89,16 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
     return;
   }
 
+  if (_pairs.length < 4) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('Cadastre os 4 pares de associação!'),
+      backgroundColor: Colors.red,
+    ),
+  );
+  return;
+}
+
   final nivelMap = {
     'Básico': 1,
     'Intermediário': 2,
@@ -119,12 +129,23 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
     print("STATUS: ${response.statusCode}");
     print("BODY: ${response.body}");
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Questão cadastrada com sucesso!'),
-        backgroundColor: Colors.green,
-      ),
-    );
+    final result = jsonDecode(response.body);
+
+if (result["success"] == true) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('Associação cadastrada com sucesso!'),
+      backgroundColor: Colors.green,
+    ),
+  );
+} else {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(result["message"] ?? 'Erro ao cadastrar associação'),
+      backgroundColor: Colors.red,
+    ),
+  );
+}
 
   } catch (e) {
 

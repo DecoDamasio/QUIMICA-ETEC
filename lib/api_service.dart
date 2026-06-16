@@ -127,4 +127,18 @@ static Future<Map<String, dynamic>> buscarAssociacao(
     'Erro ao carregar associação. Status: ${response.statusCode}',
   );
 }
+
+static Future<Map<String, dynamic>> buscarDashboardProfessor() async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/professor_dashboard.php'),
+  );
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  }
+
+  throw Exception(
+    'Erro ao carregar dashboard do professor. Status: ${response.statusCode}',
+  );
+}
 }

@@ -487,8 +487,13 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
             .toList();
       }
 
+      final String endpoint =
+        _selectedType == 'Associação - Conectar'
+            ? 'cadastrar_associacao.php'
+            : 'cadastrar_questao.php';
+
       final response = await http.post(
-        Uri.parse('http://127.0.0.1/api_etec/cadastrar_questao.php'),
+        Uri.parse('http://127.0.0.1/api_etec/$endpoint'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(requestBody),
       );
@@ -496,12 +501,27 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
       print("STATUS: ${response.statusCode}");
       print("BODY: ${response.body}");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Questão cadastrada com sucesso!"),
-          backgroundColor: Colors.green,
-        ),
-      );
+      final result = jsonDecode(response.body);
+
+      if (result["success"] == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              result["message"] ?? "Questão cadastrada com sucesso!",
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              result["message"] ?? "Erro ao cadastrar questão.",
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+}
     } catch (e) {
       print(e);
 

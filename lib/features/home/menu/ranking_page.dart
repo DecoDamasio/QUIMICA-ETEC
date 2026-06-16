@@ -31,7 +31,11 @@ Future<void> carregarAlunos() async {
       alunos = dados.map<Aluno>((item) {
         return Aluno(
           id: int.parse(item["id"].toString()),
-          nome: item["nome"],
+          nome: item["nome"].toString(),
+          nivel1: int.parse(item["nivel1"].toString()),
+          nivel2: int.parse(item["nivel2"].toString()),
+          nivel3: int.parse(item["nivel3"].toString()),
+          nivel4: int.parse(item["nivel4"].toString()),
         );
       }).toList();
 
