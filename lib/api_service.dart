@@ -58,12 +58,14 @@ class ApiService {
 
   // BUSCAR QUESTÃO
 static Future<Map<String, dynamic>> buscarQuestao(
-  int nivel,
-) async {
+  int nivel, {
+  List<int> idsUsados = const [],
+}) async {
+  final ids = idsUsados.join(',');
 
-  var response = await http.get(
+  final response = await http.get(
     Uri.parse(
-      '$baseUrl/buscar_questao.php?nivel=$nivel',
+      '$baseUrl/buscar_questao.php?nivel=$nivel&ids_usados=$ids',
     ),
   );
 

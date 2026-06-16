@@ -27,19 +27,79 @@ class _QuizPageState extends State<QuizPage> {
   int _points = 0;
   int _acertos = 0;
 
+  final List<int> _idsRespondidos = [];
+
   late Future<Map<String, dynamic>> questaoFuture;
 
   @override
   void initState() {
     super.initState();
-    questaoFuture = ApiService.buscarQuestao(widget.nivelId);
+    questaoFuture = ApiService.buscarQuestao(
+      widget.nivelId,
+      idsUsados: _idsRespondidos,
+    );
   }
 
   void _proximaQuestao() {
     setState(() {
       _selectedAlternative = null;
-      questaoFuture = ApiService.buscarQuestao(widget.nivelId);
+      questaoFuture = ApiService.buscarQuestao(
+        widget.nivelId,
+        idsUsados: _idsRespondidos,
+      );
     });
+  }
+
+  Future<void> _confirmarResposta(Map<String, dynamic> questao) async {
+    final bool acertou =
+        _selectedAlternative == questao["resposta_correta"].toString();
+
+    if (acertou) {
+      final int questaoId = int.tryParse(questao["id"].toString()) ?? 0;
+
+      if (questaoId != 0 && !_idsRespondidos.contains(questaoId)) {
+        _idsRespondidos.add(questaoId);
+      }
+
+      await ApiService.adicionarPontos(
+        widget.alunoId,
+        widget.nivelId,
+        50,
+      );
+
+      setState(() {
+        _points += 50;
+        _acertos++;
+        _selectedAlternative = null;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Correto! +50 pontos"),
+        ),
+      );
+
+      if (_acertos >= 5) {
+        await ApiService.finalizarNivel(
+          widget.alunoId,
+          widget.nivelId,
+          "quiz",
+        );
+
+        Navigator.pop(context, true);
+        return;
+      }
+
+      _proximaQuestao();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Incorreto! Resposta correta: ${questao["resposta_correta"]}",
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -121,7 +181,9 @@ class _QuizPageState extends State<QuizPage> {
                         points: _points,
                         timeLeft: "00:00",
                       ),
+
                       const SizedBox(height: 20),
+
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -137,7 +199,9 @@ class _QuizPageState extends State<QuizPage> {
                             QuizQuestionCard(
                               assetPath: "images/${questao["imagem"]}",
                             ),
+
                             const SizedBox(height: 20),
+
                             const Text(
                               'Pergunta',
                               style: TextStyle(
@@ -146,7 +210,9 @@ class _QuizPageState extends State<QuizPage> {
                                 fontSize: 12,
                               ),
                             ),
+
                             const SizedBox(height: 8),
+
                             Text(
                               questao["pergunta"].toString(),
                               style: const TextStyle(
@@ -155,7 +221,9 @@ class _QuizPageState extends State<QuizPage> {
                                 color: Color(0xFF1E293B),
                               ),
                             ),
+
                             const SizedBox(height: 8),
+
                             Text(
                               'Selecione a alternativa correta:',
                               style: TextStyle(
@@ -163,7 +231,9 @@ class _QuizPageState extends State<QuizPage> {
                                 color: Colors.grey[600],
                               ),
                             ),
+
                             const SizedBox(height: 20),
+
                             QuizOptions(
                               alternatives: alternatives,
                               selectedId: _selectedAlternative,
@@ -173,7 +243,9 @@ class _QuizPageState extends State<QuizPage> {
                                 });
                               },
                             ),
+
                             const SizedBox(height: 24),
+
                             QuizActionButtons(
                               hints: _hintsAvailable,
                               eliminations: _eliminationsAvailable,
@@ -203,60 +275,16 @@ class _QuizPageState extends State<QuizPage> {
                           ],
                         ),
                       ),
+
                       const SizedBox(height: 20),
+
                       SizedBox(
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
                           onPressed: _selectedAlternative == null
                               ? null
-                              : () async {
-                                  final bool acertou =
-                                      _selectedAlternative ==
-                                          questao["resposta_correta"]
-                                              .toString();
-
-                                  if (acertou) {
-                                    await ApiService.adicionarPontos(
-                                      widget.alunoId,
-                                      widget.nivelId,
-                                      50,
-                                    );
-
-                                    setState(() {
-                                      _points += 50;
-                                      _acertos++;
-                                      _selectedAlternative = null;
-                                    });
-
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text("Correto! +50 pontos"),
-                                      ),
-                                    );
-
-                                    if (_acertos >= 5) {
-                                      await ApiService.finalizarNivel(
-                                        widget.alunoId,
-                                        widget.nivelId,
-                                        "quiz"
-                                      );
-
-                                      Navigator.pop(context, true);
-                                      return;
-                                    }
-
-                                    _proximaQuestao();
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Incorreto! Resposta correta: ${questao["resposta_correta"]}",
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
+                              : () => _confirmarResposta(questao),
                           child: const Text("Confirmar Resposta"),
                         ),
                       ),
