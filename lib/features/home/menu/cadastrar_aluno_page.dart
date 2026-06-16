@@ -15,8 +15,13 @@ class _CadastrarAlunoPageState extends State<CadastrarAlunoPage> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
-  final TextEditingController confirmarSenhaController = TextEditingController();
-  final TextEditingController dataNascimentoController = TextEditingController();
+  final TextEditingController confirmarSenhaController =
+      TextEditingController();
+  final TextEditingController dataNascimentoController =
+      TextEditingController();
+
+  List<dynamic> alunos = [];
+  bool carregandoAlunos = false;
 
   String? serieSelecionada;
 
@@ -29,6 +34,12 @@ class _CadastrarAlunoPageState extends State<CadastrarAlunoPage> {
     '2º Ano Ensino Médio',
     '3º Ano Ensino Médio',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    carregarAlunos();
+  }
 
   @override
   void dispose() {
@@ -71,6 +82,8 @@ class _CadastrarAlunoPageState extends State<CadastrarAlunoPage> {
           setState(() {
             serieSelecionada = null;
           });
+
+          carregarAlunos();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -109,6 +122,90 @@ class _CadastrarAlunoPageState extends State<CadastrarAlunoPage> {
     }
   }
 
+  Future<void> carregarAlunos() async {
+    setState(() => carregandoAlunos = true);
+
+    try {
+      final response = await http.get(
+        Uri.parse("http://localhost/api_etec/listar_alunos.php"),
+      );
+
+      setState(() {
+        alunos = jsonDecode(response.body);
+        carregandoAlunos = false;
+      });
+    } catch (e) {
+      setState(() => carregandoAlunos = false);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Erro ao carregar alunos: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> excluirAluno(int id) async {
+    try {
+      final response = await http.post(
+        Uri.parse("http://localhost/api_etec/excluir_aluno.php"),
+        body: {
+          "id": id.toString(),
+        },
+      );
+
+      final resultado = jsonDecode(response.body);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(resultado["message"] ?? "Resposta desconhecida"),
+          backgroundColor:
+              resultado["success"] == true ? Colors.green : Colors.red,
+        ),
+      );
+
+      carregarAlunos();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Erro ao excluir aluno: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> confirmarExclusao(dynamic aluno) async {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Excluir aluno"),
+        content: Text("Deseja excluir ${aluno["nome"]}?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancelar"),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+
+              excluirAluno(
+                int.parse(aluno["id"].toString()),
+              );
+            },
+            child: const Text("Excluir"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +214,9 @@ class _CadastrarAlunoPageState extends State<CadastrarAlunoPage> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Container(
-            width: 700,
+            width: MediaQuery.of(context).size.width > 800
+                ? 700
+                : double.infinity,
             padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -253,6 +352,55 @@ class _CadastrarAlunoPageState extends State<CadastrarAlunoPage> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 40),
+                  const Divider(),
+                  const SizedBox(height: 20),
+
+                  const Text(
+                    'Alunos Cadastrados',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF24324B),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  if (carregandoAlunos)
+                    const CircularProgressIndicator()
+                  else if (alunos.isEmpty)
+                    const Text(
+                      "Nenhum aluno cadastrado.",
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  else
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: alunos.length,
+                      itemBuilder: (context, index) {
+                        final aluno = alunos[index];
+
+                        return Card(
+                          child: ListTile(
+                            leading: const Icon(Icons.person_outline),
+                            title: Text(aluno["nome"] ?? ""),
+                            subtitle: Text(
+                              "${aluno["email"] ?? ""} • ${aluno["serie"] ?? ""}",
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                color: Colors.red,
+                              ),
+                              onPressed: () => confirmarExclusao(aluno),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                 ],
               ),
             ),
