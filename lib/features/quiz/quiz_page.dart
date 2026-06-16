@@ -28,6 +28,7 @@ class _QuizPageState extends State<QuizPage> {
   int _acertos = 0;
 
   final List<int> _idsRespondidos = [];
+  final Set<String> _alternativasEliminadas = {};
 
   late Future<Map<String, dynamic>> questaoFuture;
 
@@ -43,11 +44,59 @@ class _QuizPageState extends State<QuizPage> {
   void _proximaQuestao() {
     setState(() {
       _selectedAlternative = null;
+      _alternativasEliminadas.clear();
       questaoFuture = ApiService.buscarQuestao(
         widget.nivelId,
         idsUsados: _idsRespondidos,
       );
     });
+  }
+
+  void _mostrarDica(Map<String, dynamic> questao) {
+    if (_hintsAvailable <= 0) return;
+
+    setState(() {
+      _hintsAvailable--;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          questao["dica"]?.toString().isNotEmpty == true
+              ? questao["dica"].toString()
+              : "Esta questão não possui dica cadastrada.",
+        ),
+      ),
+    );
+  }
+
+  void _eliminarAlternativas(Map<String, dynamic> questao) {
+    if (_eliminationsAvailable <= 0) return;
+
+    final String eliminar1 = questao["eliminar_1"]?.toString() ?? "";
+    final String eliminar2 = questao["eliminar_2"]?.toString() ?? "";
+
+    setState(() {
+      if (eliminar1.isNotEmpty &&
+          eliminar1 != _selectedAlternative &&
+          _alternativasEliminadas.length < 2) {
+        _alternativasEliminadas.add(eliminar1);
+      }
+
+      if (eliminar2.isNotEmpty &&
+          eliminar2 != _selectedAlternative &&
+          _alternativasEliminadas.length < 2) {
+        _alternativasEliminadas.add(eliminar2);
+      }
+
+      _eliminationsAvailable--;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Duas alternativas incorretas foram eliminadas."),
+      ),
+    );
   }
 
   Future<void> _confirmarResposta(Map<String, dynamic> questao) async {
@@ -100,6 +149,19 @@ class _QuizPageState extends State<QuizPage> {
         ),
       );
     }
+  }
+
+  List<Map<String, String>> _montarAlternativas(Map<String, dynamic> questao) {
+    final todas = [
+      {"id": "A", "text": questao["alt_a"].toString()},
+      {"id": "B", "text": questao["alt_b"].toString()},
+      {"id": "C", "text": questao["alt_c"].toString()},
+      {"id": "D", "text": questao["alt_d"].toString()},
+    ];
+
+    return todas
+        .where((alt) => !_alternativasEliminadas.contains(alt["id"]))
+        .toList();
   }
 
   @override
@@ -161,13 +223,7 @@ class _QuizPageState extends State<QuizPage> {
           }
 
           final questao = snapshot.data!["questao"];
-
-          final List<Map<String, String>> alternatives = [
-            {"id": "A", "text": questao["alt_a"].toString()},
-            {"id": "B", "text": questao["alt_b"].toString()},
-            {"id": "C", "text": questao["alt_c"].toString()},
-            {"id": "D", "text": questao["alt_d"].toString()},
-          ];
+          final alternatives = _montarAlternativas(questao);
 
           return Center(
             child: SingleChildScrollView(
@@ -181,9 +237,7 @@ class _QuizPageState extends State<QuizPage> {
                         points: _points,
                         timeLeft: "00:00",
                       ),
-
                       const SizedBox(height: 20),
-
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -199,9 +253,7 @@ class _QuizPageState extends State<QuizPage> {
                             QuizQuestionCard(
                               assetPath: "images/${questao["imagem"]}",
                             ),
-
                             const SizedBox(height: 20),
-
                             const Text(
                               'Pergunta',
                               style: TextStyle(
@@ -210,9 +262,7 @@ class _QuizPageState extends State<QuizPage> {
                                 fontSize: 12,
                               ),
                             ),
-
                             const SizedBox(height: 8),
-
                             Text(
                               questao["pergunta"].toString(),
                               style: const TextStyle(
@@ -221,9 +271,7 @@ class _QuizPageState extends State<QuizPage> {
                                 color: Color(0xFF1E293B),
                               ),
                             ),
-
                             const SizedBox(height: 8),
-
                             Text(
                               'Selecione a alternativa correta:',
                               style: TextStyle(
@@ -231,9 +279,7 @@ class _QuizPageState extends State<QuizPage> {
                                 color: Colors.grey[600],
                               ),
                             ),
-
                             const SizedBox(height: 20),
-
                             QuizOptions(
                               alternatives: alternatives,
                               selectedId: _selectedAlternative,
@@ -243,41 +289,21 @@ class _QuizPageState extends State<QuizPage> {
                                 });
                               },
                             ),
-
                             const SizedBox(height: 24),
-
                             QuizActionButtons(
                               hints: _hintsAvailable,
                               eliminations: _eliminationsAvailable,
                               onHintPressed: _hintsAvailable > 0
-                                  ? () {
-                                      setState(() {
-                                        _hintsAvailable--;
-                                      });
-
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            questao["dica"].toString(),
-                                          ),
-                                        ),
-                                      );
-                                    }
+                                  ? () => _mostrarDica(questao)
                                   : null,
                               onEliminatePressed: _eliminationsAvailable > 0
-                                  ? () {
-                                      setState(() {
-                                        _eliminationsAvailable--;
-                                      });
-                                    }
+                                  ? () => _eliminarAlternativas(questao)
                                   : null,
                             ),
                           ],
                         ),
                       ),
-
                       const SizedBox(height: 20),
-
                       SizedBox(
                         width: double.infinity,
                         height: 50,
